@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>Cyclades – Publication des notes</title>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  
+  <!-- LIBRAIRIES POUR LE PDF (Capture d'écran) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  
   <style>
     :root {
       --main_blue: #000091;
@@ -436,7 +439,7 @@
           <div class="candidate-header">
             <div class="candidate-info">
               <strong>Anas MALOUK</strong>
-              N° Candidat : 01846249149
+              N° Candidat : 170053507AG
             </div>
             <button onclick="location.reload()" class="btn-secondary" style="min-width: auto; padding: 0.5rem 1rem;">Déconnexion</button>
           </div>
@@ -445,9 +448,9 @@
             <h3>Mes notes</h3>
             <div style="font-weight: 600; margin-bottom: 1rem;">Épreuves anticipées du Baccalauréat</div>
             <table class="note-table">
-              <tr><td>Français - Écrit</td><td><span style="color: var(--main_blue);">13.00</span> / 20</td></tr>
-              <tr><td>Français - Oral</td><td><span style="color: var(--main_blue);">12.00</span> / 20</td></tr>
-              <tr><td>Mathématiques</td><td><span style="color: var(--main_blue);">15.00</span> / 20</td></tr>
+              <tr><td>Mathématiques</td><td><span style="color: var(--main_blue);">14.00</span> / 20</td></tr>
+              <tr><td>Français écrit</td><td><span style="color: var(--main_blue);">13.00</span> / 20</td></tr>
+              <tr><td>Français oral</td><td><span style="color: var(--main_blue);">11.00</span> / 20</td></tr>
             </table>
           </div>
 
@@ -490,52 +493,116 @@
       <div class="dialog-content">
         <button class="dialog-close" onclick="closeReleve()">✕</button>
         
-        <div style="text-align: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
-            <h2 style="color: var(--main_blue); margin-bottom: 1rem;">Votre relevé de notes officiel</h2>
-            <button onclick="downloadRelevePDF()" style="padding: 12px 24px; background: #000091; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: 0.2s;">Télécharger le relevé (PDF)</button>
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <button id="pdfDownloadBtn" onclick="downloadRelevePDF()" style="padding: 12px 24px; background: #000091; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: 0.2s;">
+                Télécharger le relevé (PDF)
+            </button>
         </div>
 
-        <div id="releve-content" style="font-family: 'Marianne', sans-serif; font-size: 14px; max-width: 800px; margin: 0 auto; padding: 1rem; border: 1px solid #000;">
-            <div style="display:flex; justify-content:space-between; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:15px;">
-                <div><strong>SIEC - ACADÉMIES</strong><br>DE CRÉTEIL - PARIS - VERSAILLES</div>
-                <div style="border:2px solid #000; padding:10px; text-align:center; width: 40%;">
-                    <h2 style="margin:0; font-size: 16px;">Relevé de notes</h2>
-                    <div style="font-weight:bold; margin-top:4px;">Baccalauréat technologique 2022</div>
-                </div>
-                <div style="text-align:right;">
-                    <strong>N° candidat :</strong> 01846249149<br>
-                    <strong>Inscription n° :</strong> 004
-                </div>
-            </div>
+        <!-- Le design EXACT du relevé de notes fourni -->
+        <div id="releve-content" style="font-family: 'Marianne', sans-serif; font-size: 14px; max-width: 900px; margin: 0 auto; padding: 1.5rem; border: 1px solid #000; background: white;">
             
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px; padding:10px; border:1px solid #ccc; background:#f9f9f9;">
-                <div>
-                    <strong>Anas MALOUK</strong><br>
-                    Né le 08/01/2004
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 15px;">
+                <div style="font-size: 13px;">
+                    <strong>Rectorat de Lyon</strong><br>
+                    DEC45-EA<br>
+                    94 rue Hénon<br>
+                    69244 LYON CEDEX 04<br>
+                    Tél. : 04 72 80 61 26<br>
+                    Mail. : dec-ea@ac-lyon.fr
                 </div>
-                <div style="text-align:center; border-left:1px solid #ccc; padding-left:15px;">
-                    <div style="border:2px dashed #000; width: 80px; height: 80px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#666; margin:auto;">QR CODE</div>
-                    <div style="font-size:10px; margin-top:4px;">CycladesVerifLN</div>
+                <div style="text-align: right; font-size: 13px;">
+                    <strong>MALOUK Anas</strong><br>
+                    25 AVENUE DE L EUROPE<br>
+                    69140 RILLIEUX LA PAPE
                 </div>
             </div>
 
-            <table style="width:100%; border-collapse:collapse; font-size:13px; margin-bottom:15px;">
-                <tr style="background:#f0f0f0;"><th style="border:1px solid #000; padding:5px; text-align:left;">Épreuve</th><th style="border:1px solid #000; padding:5px; text-align:center;">Coef.</th><th style="border:1px solid #000; padding:5px; text-align:center;">Note</th><th style="border:1px solid #000; padding:5px; text-align:center;">Points</th></tr>
-                <tr><td style="border:1px solid #000; padding:5px;">Français - Écrit</td><td style="border:1px solid #000; padding:5px; text-align:center;">5.00</td><td style="border:1px solid #000; padding:5px; text-align:center;">13.00</td><td style="border:1px solid #000; padding:5px; text-align:center;">65.00</td></tr>
-                <tr><td style="border:1px solid #000; padding:5px;">Français - Oral</td><td style="border:1px solid #000; padding:5px; text-align:center;">5.00</td><td style="border:1px solid #000; padding:5px; text-align:center;">12.00</td><td style="border:1px solid #000; padding:5px; text-align:center;">60.00</td></tr>
-                <tr><td style="border:1px solid #000; padding:5px;">Mathématiques</td><td style="border:1px solid #000; padding:5px; text-align:center;">3.33</td><td style="border:1px solid #000; padding:5px; text-align:center;">15.00</td><td style="border:1px solid #000; padding:5px; text-align:center;">49.95</td></tr>
-            </table>
-            
-            <div style="display:flex; justify-content:space-between; border-top:2px solid #000; padding-top:10px;">
-                <div><strong>Calcul résultat</strong><br>Épreuves terminales : 60.0<br>Contrôle continu : 40.0</div>
-                <div style="text-align:center; border:2px solid #000; padding:5px 15px;">
-                    <strong>Admis</strong>
+            <div style="display:flex; justify-content:space-between; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 10px 0; margin-bottom: 15px; font-size: 13px;">
+                <div>
+                    <strong>Nom de famille :</strong> MALOUK<br>
+                    <strong>Nom d'usage :</strong><br>
+                    <strong>Prénom(s) :</strong> Anas<br>
+                    <strong>Date de naissance :</strong> 04/11/2009 A : CUORGNE (ITALIE)<br>
+                    <strong>INE :</strong> 170053507AG
                 </div>
-                <div style="text-align:right;">
-                    <strong>MOYENNE FINALE : 14.7</strong><br>
-                    <span style="font-size:11px; color:#666;">Le 05 juillet 2022</span>
+                <div style="text-align: right;">
+                    <strong>Établissement :</strong><br>
+                    0692517L LPO CAMUS-SERMENAZ<br>
+                    RILLIEUX-LA-PAPE
                 </div>
             </div>
+
+            <div style="margin-bottom: 15px; font-size: 13px;">
+                <strong>Catégorie :</strong> SCOLAIRE<br>
+                <strong>Forme de passage :</strong> Contrôle continu y compris EPS<br>
+                <strong>Série :</strong> Sciences et technologies de l'industrie et du développement durable (STI2D)<br>
+                <strong>Enseignements :</strong> Innovation technologique / Ingénierie et développement durable / Physique chimie et mathématiques
+            </div>
+
+            <!-- TABLEAU 1 : Épreuves terminales anticipées -->
+            <table style="width:100%; border-collapse:collapse; font-size:13px; margin-bottom: 20px;">
+                <tr style="background:#f0f0f0;">
+                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Epreuves terminales anticipées</th>
+                    <th style="border: 1px solid #000; padding: 8px; text-align: center; width: 150px;">Note sur 20</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Mathématiques</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">14,00</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Français écrit</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">13,00</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Français oral</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">11,00</td>
+                </tr>
+            </table>
+
+            <!-- TABLEAU 2 : Contrôle continu 1ère -->
+            <table style="width:100%; border-collapse:collapse; font-size:13px; margin-bottom: 20px;">
+                <tr style="background:#f0f0f0;">
+                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Contrôle continu 1ère (Livret)</th>
+                    <th style="border: 1px solid #000; padding: 8px; text-align: center; width: 150px;">Note sur 20</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Histoire - Géographie</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">12,50</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Enseignement moral et civique</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">14,40</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Langue vivante A-Anglais</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">7,90</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Langue vivante B-Espagnol</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">13,40</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Mathématiques</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">10,10</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #000; padding: 8px;">Spécialité : Innovation technologique</td>
+                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">16,20</td>
+                </tr>
+            </table>
+
+            <!-- Bas de page -->
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top: 30px; font-size: 13px;">
+                <div>
+                    A Lyon, le 13 juillet 2026
+                </div>
+                <div style="text-align: right;">
+                    La rectrice de l'académie de Lyon<br>
+                    <span style="display:block; margin-top: 10px;">Anne Bisagni-Faure</span>
+                </div>
+            </div>
+
         </div>
       </div>
     </div>
@@ -737,43 +804,40 @@
         if(e.target === this) window.closeReleve();
       });
 
+      // ===== FONCTION DE TÉLÉCHARGEMENT PDF (CAPTURE D'ÉCRAN) =====
       window.downloadRelevePDF = function() {
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF('p', 'mm', 'a4');
-
-          doc.setFontSize(18);
-          doc.text("SIEC - ACADÉMIES DE CRÉTEIL - PARIS - VERSAILLES", 105, 20, { align: "center" });
+          const btn = document.getElementById('pdfDownloadBtn');
+          const originalText = btn.innerText;
           
-          doc.setFontSize(14);
-          doc.text("Relevé de notes - Baccalauréat technologique 2022", 105, 30, { align: "center" });
-          
-          doc.setFontSize(12);
-          doc.text("Candidat : Anas MALOUK", 15, 50);
-          doc.text("N° candidat : 01846249149", 15, 57);
-          doc.text("Né le : 08/01/2004", 15, 64);
+          btn.disabled = true;
+          btn.innerText = "Génération du PDF...";
 
-          doc.autoTable({
-              startY: 75,
-              head: [['Épreuve', 'Coeff.', 'Note', 'Points']],
-              body: [
-                  ['Français - Écrit', '5.00', '13.00', '65.00'],
-                  ['Français - Oral', '5.00', '12.00', '60.00'],
-                  ['Mathématiques', '3.33', '15.00', '49.95']
-              ],
-              theme: 'striped',
-              styles: { fontSize: 12, cellPadding: 4 },
-              headStyles: { fillColor: [0, 0, 145] },
-              columnStyles: { 0: { cellWidth: 70 }, 1: { halign: 'center' }, 2: { halign: 'center' }, 3: { halign: 'center' } }
+          const element = document.getElementById('releve-content');
+
+          html2canvas(element, { 
+              scale: 2,
+              backgroundColor: '#ffffff',
+              allowTaint: false,
+              useCORS: true
+          }).then(canvas => {
+              const imgData = canvas.toDataURL('image/png');
+              const { jsPDF } = window.jspdf;
+              
+              const pdf = new jsPDF('p', 'mm', 'a4');
+              const pdfWidth = pdf.internal.pageSize.getWidth();
+              const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+              
+              pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+              pdf.save('Releve_Notes_Anas_Malouk.pdf');
+              
+              btn.disabled = false;
+              btn.innerText = originalText;
+          }).catch(err => {
+              console.error(err);
+              alert("Une erreur est survenue lors de la génération du PDF.");
+              btn.disabled = false;
+              btn.innerText = originalText;
           });
-
-          doc.setFontSize(14);
-          doc.text("Moyenne finale : 14.7 / 20", 15, doc.lastAutoTable.finalY + 20);
-          
-          doc.setFontSize(16);
-          doc.setTextColor(0, 135, 102);
-          doc.text("Admis", 15, doc.lastAutoTable.finalY + 35);
-
-          doc.save('Releve_Notes_Anas_Malouk.pdf');
       };
 
       window.openPage = function(title, contentHTML) {
@@ -799,4 +863,4 @@
     })();
   </script>
 </body>
-                    </html>
+                                                                                      </html>
